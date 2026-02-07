@@ -37,11 +37,11 @@ class ModelEvaluation:
         On Failure  :   Write an exception log and then raise an exception
         """
         try:
-            bucket_name = self.model_eval_config.bucket_name
+            repo_id = self.model_eval_config.repo_id
             model_path = self.model_eval_config.s3_model_key_path
-            proj1_estimator = Proj1Estimator(bucket_name=bucket_name, model_path=model_path)
+            proj1_estimator = Proj1Estimator(repo_id=repo_id, model_path=model_path)
 
-            if proj1_estimator.is_model_present(model_path=model_path):
+            if proj1_estimator.is_model_exists():
                 return proj1_estimator
             return None
         
@@ -79,7 +79,7 @@ class ModelEvaluation:
             df = df.drop("_id", axis=1)
         return df
     
-    def evaluate_model(self) -> EvaluateModelResponse:
+    def evaluate_model(self) -> EvaluationModelResponse:
         """
         Method Name :   evaluate_model
         Description :   This function is used to evaluate trained model 

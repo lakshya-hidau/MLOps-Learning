@@ -1,35 +1,29 @@
-import boto3
 import os
+import logging
+from dotenv import load_dotenv
+from huggingface_hub import HfApi
+
+# Load environment variables from .env file
+load_dotenv()
 
 class ObjectStorageClient:
-    client = None
-    resource = None
+    api = None
+    repo_id = None
+    repo_type = None
 
     def __init__(self):
-        if ObjectStorageClient.client is None or ObjectStorageClient.resource is None:
-            access_key = os.getenv("STORAGE_ACCESS_KEY")
-            secret_key = os.getenv("STORAGE_SECRET_KEY")
-            endpoint = os.getenv("STORAGE_ENDPOINT")
-            region = os.getenv("STORAGE_REGION", "us-east-1")
+        if ObjectStorageClient.api is None:
+            token = os.getenv("HUGGINGFACE_TOKEN")
+            repo_id = os.getenv("HUGGINGFACE_REPO_ID")
+            repo_type = os.getenv("HUGGINGFACE_REPO_TYPE", "model")
 
-            if not access_key or not secret_key or not endpoint:
-                raise Exception("Object storage credentials are not set")
+            if not token or not repo_id:
+                raise Exception("Hugging Face credentials (token, repo_id) are not set in environment variables.")
 
-            ObjectStorageClient.resource = boto3.resource(
-                "s3",
-                endpoint_url=endpoint,
-                aws_access_key_id=access_key,
-                aws_secret_access_key=secret_key,
-                region_name=region,
-            )
+            ObjectStorageClient.api = HfApi(token=token)
+            ObjectStorageClient.repo_id = repo_id
+            ObjectStorageClient.repo_type = repo_type
 
-            ObjectStorageClient.client = boto3.client(
-                "s3",
-                endpoint_url=endpoint,
-                aws_access_key_id=access_key,
-                aws_secret_access_key=secret_key,
-                region_name=region,
-            )
-
-        self.resource = ObjectStorageClient.resource
-        self.client = ObjectStorageClient.client
+        self.api = ObjectStorageClient.api
+        self.repo_id = ObjectStorageClient.repo_id
+        self.repo_type = ObjectStorageClient.repo_type

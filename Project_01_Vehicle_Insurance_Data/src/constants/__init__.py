@@ -33,15 +33,16 @@ MODEL_FILE_NAME = "model.pkl"
 PREPROCESSING_OBJECT_FILE_NAME = "preprocessing.pkl"
 
 # ================================
-# Object Storage (MinIO / S3-compatible)
+# Object Storage (Hugging Face)
 # ================================
+# Key names for environment variables (kept for reference, handled by object_storage_connection.py)
 STORAGE_ACCESS_KEY_ENV = "STORAGE_ACCESS_KEY"
 STORAGE_SECRET_KEY_ENV = "STORAGE_SECRET_KEY"
 STORAGE_ENDPOINT_ENV = "STORAGE_ENDPOINT"
 STORAGE_REGION_ENV = "STORAGE_REGION"
 
-MODEL_BUCKET_NAME = "cloudstation"
-MODEL_REGISTRY_PATH = "model-registry/model.pkl"
+MODEL_REPO_ID = "learncode2025/vehicle-insurance-model" # Can also be read from env via HUGGINGFACE_REPO_ID
+MODEL_REGISTRY_PATH = "model.pkl"
 
 # ================================
 # Data Ingestion

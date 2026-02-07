@@ -2,10 +2,14 @@ import os
 import sys
 import pymongo
 import certifi
+from dotenv import load_dotenv
 
 from src.exception import MyException
 from src.logger import logging
 from src.constants import DATABASE_NAME, MONGODB_URL_KEY
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Load the cerificate authority file for SSL connection
 ca = certifi.where()
@@ -50,8 +54,13 @@ class MongoDBClient:
                 if mongo_db_url is None:
                     raise Exception(f"Environment variable '{MONGODB_URL_KEY}' is not set.")
                 
-                # Establish a new MongoDB client connection with SSL certificate
-                MongoDBClient.client = pymongo.MongoClient(mongo_db_url, tlsCAFile=ca)
+                # Establish a new MongoDB client connection with SSL certificate and increased timeouts
+                MongoDBClient.client = pymongo.MongoClient(
+                    mongo_db_url, 
+                    tlsCAFile=ca,
+                    connectTimeoutMS=60000,
+                    socketTimeoutMS=600000 
+                )
 
 
             # Use the shared MongoClient for this instance

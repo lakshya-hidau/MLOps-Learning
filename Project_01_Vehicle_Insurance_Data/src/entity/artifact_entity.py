@@ -38,5 +38,5 @@ class ModelEvaluationArtifact:
 
 @dataclass
 class ModelPusherArtifact:
-    bucket_name: str
+    repo_id: str
     s3_model_path: str
