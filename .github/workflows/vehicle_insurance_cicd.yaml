@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "Project_01_Vehicle_Insurance_Data/**"
 
 jobs:
   build-and-deploy:
@@ -17,14 +19,19 @@ jobs:
       # Step 2: Login to Hugging Face Docker Registry
       - name: Login to Hugging Face
         run: |
-          echo "${{ secrets.HF_TOKEN }}" | docker login huggingface.co -u hf --password-stdin
+          echo "${{ secrets.HF_TOKEN }}" | \
+          docker login huggingface.co \
+            -u "${{ secrets.HF_USERNAME }}" \
+            --password-stdin
 
       # Step 3: Build Docker image
       - name: Build Docker image
         run: |
-          docker build -t huggingface.co/learncode2025/vehicle-insurance-docker:latest .
+          docker build \
+            -t huggingface.co/${{ secrets.HF_USERNAME }}/vehicle-insurance-docker:latest \
+            ./Project_01_Vehicle_Insurance_Data
 
       # Step 4: Push Docker image to Hugging Face Space
       - name: Push Docker image
         run: |
-          docker push huggingface.co/learncode2025/vehicle-insurance-docker:latest
+          docker push huggingface.co/${{ secrets.HF_USERNAME }}/vehicle-insurance-docker:latest
