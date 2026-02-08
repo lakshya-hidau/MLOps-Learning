@@ -92,4 +92,4 @@ MODEL_EVALUATION_CHANGED_THRESHOLD_SCORE: float = 0.02
 # Application
 # ================================
 APP_HOST = "0.0.0.0"
-APP_PORT = 5000
+APP_PORT = 7860

@@ -8,30 +8,26 @@ on:
       - "Project_01_Vehicle_Insurance_Data/**"
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout source code
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Login to Hugging Face Docker Registry
-      - name: Login to Hugging Face
+      - name: Login to Hugging Face Docker Registry
         run: |
           echo "${{ secrets.HF_TOKEN }}" | \
-          docker login huggingface.co \
-            -u "${{ secrets.HF_USERNAME }}" \
+          docker login registry.hf.space \
+            -u learncode2025 \
             --password-stdin
 
-      # Step 3: Build Docker image
       - name: Build Docker image
         run: |
           docker build \
-            -t huggingface.co/${{ secrets.HF_USERNAME }}/vehicle-insurance-docker:latest \
+            -t registry.hf.space/learncode2025/vehicle-insurance:latest \
             ./Project_01_Vehicle_Insurance_Data
 
-      # Step 4: Push Docker image to Hugging Face Space
       - name: Push Docker image
         run: |
-          docker push huggingface.co/${{ secrets.HF_USERNAME }}/vehicle-insurance-docker:latest
+          docker push registry.hf.space/learncode2025/vehicle-insurance:latest
