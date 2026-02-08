@@ -20,4 +20,3 @@ jinja2
 imblearn
 python-dotenv
 huggingface_hub
--e .

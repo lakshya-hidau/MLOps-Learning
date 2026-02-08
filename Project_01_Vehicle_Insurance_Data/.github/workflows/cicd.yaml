@@ -1,0 +1,30 @@
+name: CI-CD to Hugging Face Spaces
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout source code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Login to Hugging Face Docker Registry
+      - name: Login to Hugging Face
+        run: |
+          echo "${{ secrets.HF_TOKEN }}" | docker login huggingface.co -u hf --password-stdin
+
+      # Step 3: Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t huggingface.co/learncode2025/vehicle-insurance-docker:latest .
+
+      # Step 4: Push Docker image to Hugging Face Space
+      - name: Push Docker image
+        run: |
+          docker push huggingface.co/learncode2025/vehicle-insurance-docker:latest

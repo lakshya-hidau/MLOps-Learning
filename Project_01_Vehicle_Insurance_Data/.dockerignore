@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Git
+.git/
+.gitignore
+
+# IDEs
+.vscode/
+
+# Artifacts & logs
+artifact/
+logs/
+notebook/
+
+# Tests & cache
+.pytest_cache/
+
+# Docs
+README.md
+LICENSE
+
+# Environment files
+.env
+
+# OS
+.DS_Store
