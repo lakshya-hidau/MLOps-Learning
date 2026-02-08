@@ -1,28 +1,10 @@
-# FROM python:3.11-slim
-
-# WORKDIR /app
-
-# ENV PYTHONUNBUFFERED=1
-
-# # Copy your application code to the container
-# COPY . /app
-
-# RUN pip install --no-cache-dir -r requirements.txt
-# COPY . .
-
-# # Expose the port your application runs on (if needed)
-# EXPOSE 5000
-
-# # Define the command to run the FASTAPI application
-# CMD ["python3", "app.py"]
-
-# # Use an official Python 3.11.5 image from Docker Hub
+# Use an official Python 3.11.5 image from Docker Hub
 FROM python:3.11-slim
 
-# # Set the working directory in the container
+# Set the working directory in the container
 WORKDIR /app
 
-# # Add ENV PYTHONUNBUFFERED=1 to avoid buffering issues with Python output in Docker
+# Add ENV PYTHONUNBUFFERED=1 to avoid buffering issues with Python output in Docker
 ENV PYTHONUNBUFFERED=1
 
 # Install system dependencies (optional but recommended)
@@ -33,7 +15,7 @@ build-essential \
 # Copy dependency file first (for caching)
 COPY requirements.txt .
 
-# # Install any necessary dependencies (if you have a requirements.txt file)
+# Install any necessary dependencies (if you have a requirements.txt file)
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
