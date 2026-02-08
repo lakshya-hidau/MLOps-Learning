@@ -25,9 +25,9 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            -t registry.hf.space/learncode2025/vehicle-insurance:latest \
+            -t registry.hf.space/learncode2025/vehicle-insurance-pred-app:latest \
             ./Project_01_Vehicle_Insurance_Data
 
       - name: Push Docker image
         run: |
-          docker push registry.hf.space/learncode2025/vehicle-insurance:latest
+          docker push registry.hf.space/learncode2025/vehicle-insurance-pred-app:latest

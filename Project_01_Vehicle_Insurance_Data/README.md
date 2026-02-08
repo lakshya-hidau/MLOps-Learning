@@ -143,7 +143,7 @@ docker run -p 7860:7860 -e MONGODB_URL="your_url" vehicle-insurance-app
 
 ## 🤝 Connect
 
-Special thanks to all contributors and the MLOps community for the inspiration!
+Special thanks to all contributors and the MLOps community for the inspiration!!
 
 - **LinkedIn**: https://www.linkedin.com/in/lakshya-hidau
 - **Email**: lakshyahidau2005@gmail.com
