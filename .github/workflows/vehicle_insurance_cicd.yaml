@@ -1,4 +1,4 @@
-name: CI-CD to Hugging Face Spaces
+name: Vehicle Insurance CI-CD
 
 on:
   push:
