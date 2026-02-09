@@ -1,8 +1,11 @@
 import os
 import sys
 import pickle
+import joblib
+import dill
 from io import StringIO, BytesIO
 from typing import Union, List
+import warnings
 
 from pandas import DataFrame, read_csv
 from huggingface_hub import hf_hub_download
@@ -14,6 +17,55 @@ from src.logger import logging
 
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+
+# Create a proper mock class for sklearn compatibility
+class _RemainderColsList(list):
+    """
+    Mock class for sklearn compatibility. _RemainderColsList was an internal 
+    sklearn class in older versions that is no longer present in newer versions.
+    This mock allows older pickled models to deserialize correctly.
+    """
+    def __reduce__(self):
+        return (list, (list(self),))
+
+
+def _patch_sklearn_modules():
+    """
+    Patch sklearn modules to add missing classes from older versions.
+    This allows older pickled sklearn models to load in newer sklearn versions.
+    """
+    try:
+        import sklearn.compose._column_transformer as ct_module
+        
+        # Add _RemainderColsList if it doesn't exist
+        if not hasattr(ct_module, '_RemainderColsList'):
+            logging.info("Patching sklearn.compose._column_transformer with _RemainderColsList")
+            ct_module._RemainderColsList = _RemainderColsList
+            sys.modules['sklearn.compose._column_transformer']._RemainderColsList = _RemainderColsList
+    except Exception as e:
+        logging.debug(f"Could not patch sklearn modules: {e}")
+
+
+# Apply patches when module is imported
+_patch_sklearn_modules()
+
+
+class SklearnCompatibilityUnpickler(pickle.Unpickler):
+    """
+    Custom unpickler to handle sklearn version compatibility issues.
+    Provides proper mock classes for missing sklearn internals.
+    """
+    
+    def find_class(self, module, name):
+        # Handle missing _RemainderColsList from older sklearn versions
+        if module == 'sklearn.compose._column_transformer' and name == '_RemainderColsList':
+            logging.debug(f"Mapping {module}.{name} to _RemainderColsList mock class")
+            return _RemainderColsList
+        
+        # Try standard resolution
+        return super().find_class(module, name)
+
 
 class SimpleObjectStorageService:
     """
@@ -122,8 +174,43 @@ class SimpleObjectStorageService:
     def load_pickle(self, filename: str, repo_id: str):
         try:
             local_path = self.get_file_object(filename, repo_id)
-            with open(local_path, "rb") as f:
-                return pickle.load(f)
+            
+            # Try different loading methods in order of preference
+            # Try dill first - it handles sklearn compatibility better
+            try:
+                logging.info(f"Attempting to load {filename} with dill...")
+                return dill.load(open(local_path, "rb"))
+            except Exception as e1:
+                logging.warning(f"Dill failed: {str(e1)[:150]}. Trying joblib...")
+                try:
+                    # Try joblib
+                    return joblib.load(local_path)
+                except Exception as e2:
+                    logging.warning(f"Joblib failed: {str(e2)[:150]}. Trying custom unpickler...")
+                    try:
+                        # Try custom unpickler with sklearn compatibility
+                        with open(local_path, "rb") as f:
+                            unpickler = SklearnCompatibilityUnpickler(f)
+                            return unpickler.load()
+                    except Exception as e3:
+                        logging.error(f"All loading methods failed. Last error: {str(e3)[:150]}")
+                        raise MyException(e3, sys)
+        except MyException:
+            raise
+        except Exception as e:
+            raise MyException(e, sys)
+
+    def save_pickle(self, obj, local_path: str, use_joblib: bool = True):
+        """
+        Save an object to a pickle file. Uses joblib by default for better sklearn compatibility.
+        """
+        try:
+            os.makedirs(os.path.dirname(local_path), exist_ok=True)
+            if use_joblib:
+                joblib.dump(obj, local_path)
+            else:
+                with open(local_path, "wb") as f:
+                    pickle.dump(obj, f)
         except Exception as e:
             raise MyException(e, sys)
 

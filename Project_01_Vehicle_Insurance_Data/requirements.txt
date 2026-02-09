@@ -4,7 +4,7 @@ numpy
 matplotlib
 plotly
 seaborn
-scikit-learn
+scikit-learn==1.5.1
 pymongo
 from_root
 dill
@@ -20,3 +20,5 @@ jinja2
 imblearn
 python-dotenv
 huggingface_hub
+joblib
+cloudpickle
