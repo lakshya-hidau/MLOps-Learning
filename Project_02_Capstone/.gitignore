@@ -90,3 +90,12 @@ target/
 
 projectflow.txt
 cred.txt
+
+# Project specific
+logs/
+mlruns/
+local_storage/
+models/
+src.egg-info/
+.dvc/tmp/
+.dvc/cache/
