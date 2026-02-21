@@ -39,6 +39,8 @@ jobs:
         run: |
           echo "HF_TOKEN=${{ secrets.HF_TOKEN }}" >> $GITHUB_ENV
           echo "HF_HOME=/tmp/huggingface" >> $GITHUB_ENV
+          echo "HF_REPO_ID=learncode2025/MLOps-Learning_Project_02_Capstone" >> $GITHUB_ENV
+          echo "HF_REPO_TYPE=dataset" >> $GITHUB_ENV
 
       # 5️⃣ Reproduce DVC Pipeline (Data → Train → Evaluate)
       - name: Run DVC Pipeline

@@ -15,6 +15,9 @@ load_dotenv()
 
 repo_id=os.getenv("HF_REPO_ID")
 token=os.getenv("HF_TOKEN")
+if not repo_id:
+    logging.error('HF_REPO_ID environment variable is not set. Set HF_REPO_ID in your CI or .env file.')
+    raise ValueError('HF_REPO_ID environment variable is required for data ingestion')
 
 def load_params(params_path: str) -> dict:
     """Load parameters from a YAML file."""
