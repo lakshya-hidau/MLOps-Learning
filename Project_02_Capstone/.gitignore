@@ -89,3 +89,4 @@ target/
 .mypy_cache/
 
 projectflow.txt
+cred.txt
