@@ -4,7 +4,8 @@ import logging
 from src.logger import logging
 import os
 import dagshub
-
+from dotenv import load_dotenv
+load_dotenv()
 import warnings
 warnings.simplefilter("ignore", UserWarning)
 warnings.filterwarnings("ignore")

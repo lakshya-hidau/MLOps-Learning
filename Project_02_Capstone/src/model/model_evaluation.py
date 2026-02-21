@@ -11,6 +11,10 @@ import os
 import sys
 from io import StringIO
 from src.logger import logging
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 # Below code block is for production use
