@@ -23,6 +23,3 @@ python-dotenv
 huggingface-hub
 PyYAML
 click
-
-# Internal Project Setup
--e .
