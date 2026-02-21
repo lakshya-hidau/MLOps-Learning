@@ -1,0 +1,6 @@
+artifact_location: file:///D:/End To End AI _ML_DL Course/11_MLOps/Project_02_Capstone/mlruns/313380222847152205
+creation_time: 1771657388533
+experiment_id: '313380222847152205'
+last_update_time: 1771657388533
+lifecycle_stage: active
+name: my-dvc-pipeline
