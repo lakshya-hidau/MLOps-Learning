@@ -1,4 +1,6 @@
 [core]
     remote = mylocal
+['remote "origin"']
+    url = https://huggingface.co/datasets/learncode2025/MLOps-Learning_Project_02_Capstone
 ['remote "mylocal"']
     url = ../local_storage

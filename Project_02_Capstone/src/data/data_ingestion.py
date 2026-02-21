@@ -7,7 +7,14 @@ from sklearn.model_selection import train_test_split
 import yaml
 import logging
 from src.logger import logging
-# from src.connections import storage_connection
+from src.connection import storage_connection
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+repo_id=os.getenv("HF_REPO_ID")
+token=os.getenv("HF_TOKEN")
 
 def load_params(params_path: str) -> dict:
     """Load parameters from a YAML file."""
@@ -73,9 +80,9 @@ def main():
         test_size = params['data_ingestion']['test_size']
         # test_size = 0.2
         
-        df = load_data(data_url='D:\\End To End AI _ML_DL Course\\11_MLOps\\Project_02_Capstone\\notebooks\\IMDB.csv')
-        # s3 = s3_connection.s3_operations("bucket-name", "accesskey", "secretkey")
-        # df = s3.fetch_file_from_s3("data.csv")
+        # df = load_data(data_url='notebooks/IMDB.csv')
+        s3 = storage_connection.hf_storage_operations(repo_id=repo_id, token=token)
+        df = s3.fetch_file_from_hf("IMDB.csv")
 
 
 
