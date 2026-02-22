@@ -54,19 +54,19 @@ jobs:
         run: |
           python -m unittest discover -s tests || echo "No tests found, skipping"
 
-      # # 7️⃣ Login to DockerHub (NOT AWS)
-      # - name: Login to DockerHub
-      #   uses: docker/login-action@v3
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # 7️⃣ Login to DockerHub (NOT AWS)
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # # 8️⃣ Build Docker Image (from Project_02_Capstone folder)
-      # - name: Build Docker Image
-      #   run: |
-      #     docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/capstone-sentiment:latest .
+      # 8️⃣ Build Docker Image (from Project_02_Capstone folder)
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/capstone-sentiment:latest .
 
-      # # 9️⃣ Push Image to DockerHub
-      # - name: Push Docker Image to DockerHub
-      #   run: |
-      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/capstone-sentiment:latest
+      # 9️⃣ Push Image to DockerHub
+      - name: Push Docker Image to DockerHub
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/capstone-sentiment:latest
