@@ -29,7 +29,7 @@ graph TD
     A[Data Source] -- Ingestion --> B[DVC Tracked Data]
     B -- Process --> C[Feature Engineering]
     C -- Train --> D[Model Training]
-    D -- Log --> E[MLflow / Dagshub]
+    D -- Log --> E["MLflow / Dagshub"]
     D -- Version --> F[DVC Model Storage]
     E -- Evaluate --> G{Best Model?}
     G -- Yes --> H[Model Registry]

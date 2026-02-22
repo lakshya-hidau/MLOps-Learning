@@ -28,10 +28,10 @@ graph TD
     end
 
     subgraph "Packaging & Deployment"
-        F --> J[Model Packaging (FastAPI/Flask)]
+        F --> J["Model Packaging (FastAPI/Flask)"]
         J --> K[Docker Image Build]
-        K --> L[Container Registry (DockerHub/ECR)]
-        L --> M[Deployment Target (EC2/Cloud/On-Prem)]
+        K --> L["Container Registry (DockerHub/ECR)"]
+        L --> M["Deployment Target (EC2/Cloud/On-Prem)"]
     end
 
     subgraph "CI/CD & Automation"
@@ -41,8 +41,8 @@ graph TD
     end
 
     subgraph "Monitoring & Feedback"
-        M --> P[Application Metrics (Prometheus)]
-        P --> Q[Dashboards & Alerts (Grafana)]
+        M --> P["Application Metrics (Prometheus)"]
+        P --> Q["Dashboards & Alerts (Grafana)"]
         Q --> R[Continuous Improvement Loop]
         R --> F
     end
