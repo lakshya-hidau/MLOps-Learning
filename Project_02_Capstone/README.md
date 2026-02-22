@@ -84,7 +84,7 @@ This repository contains a comprehensive, production-ready MLOps project that au
   python app.py
   ```
 
-## 📈 Monitoring and Deployment:
+## 📈 Monitoring and Deployment
 The project includes setup scripts and documentation for:
 - Deploying to **AWS EKS** via GitHub Actions.
 - Configuring **Prometheus** for metric scraping.
