@@ -33,6 +33,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install dvc huggingface_hub datasets
+          pip install -e .
 
       # 4️⃣ Set Hugging Face Token (for dataset + model access)
       - name: Set Hugging Face and MLflow Environment Variables
